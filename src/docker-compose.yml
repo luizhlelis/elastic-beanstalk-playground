@@ -1,8 +1,8 @@
 version: "3.4"
 services:
 
-  rent-movie-api:
-    container_name: rent-movie-api
+  sample-api:
+    container_name: sample-api
     environment:
       ConnectionStrings__SampleAppContext: "Data Source=sql-server-database; Initial Catalog=SampleApp; User Id=sa; Password=1StrongPassword*"
     working_dir: /app
@@ -17,10 +17,11 @@ services:
 
   sql-server-database:
     container_name: sql-server-database
-    image: mcr.microsoft.com/mssql/server
+    # The following image supports AMD64 and also ARM64 chips (M1 and M2)
+    image: mcr.microsoft.com/azure-sql-edge
     user: root
     environment:
-      SA_PASSWORD: 1StrongPassword*
+      MSSQL_SA_PASSWORD: 1StrongPassword*
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
