@@ -1,6 +1,6 @@
-# aspnet-template-with-auth
+# elastic-beanstalk-playground
 
-🎬 🔐 ASP.NET Core template API with authentication and `Hexagonal Architecture` (also known as ports and adapters) ⬡⬢
+🫘 Just playing a bit with AWS Elastic Beanstalk for containers
 
 ## Pre requisites
 
