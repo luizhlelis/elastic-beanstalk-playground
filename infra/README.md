@@ -2,27 +2,11 @@
 
 ## Pre-requisites
 
-- Terraform
-- AWS Account
-- Service User on IAM with the following permissions:
+- Terraform;
+- AWS Account;
+- Create an user on IAM with the following permission: `AdministratorAccess-AWSElasticBeanstalk`;
+- Create IAM Role for `EC2` as `AWS Service` and attach `AWSElasticBeanstalkWebTier`, `AWSElasticBeanstalkMulticontainer` and `AWSElasticBeanstalkWorkerTier` policies to it. The IAM role should be named as `aws-elasticbeanstalk-ec2-role`.
 
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "elasticbeanstalk:CreateApplication",
-                "elasticbeanstalk:CreateApplicationVersion",
-                "elasticbeanstalk:UpdateEnvironment",
-                "elasticbeanstalk:ValidateConfigurationSettings"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
-```
 
 ## Running commands
 
@@ -33,5 +17,13 @@ export AWS_REGION="<your-aws-region-here>"
 ```
 
 ```shell
-terraform plan
+terraform init
+```
+
+```shell
+terraform plan -out plan-output
+```
+
+```shell
+terraform apply plan-output
 ```
