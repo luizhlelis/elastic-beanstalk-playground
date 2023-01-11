@@ -6,12 +6,9 @@ services:
     environment:
       ConnectionStrings__SampleAppContext: "Data Source=sql-server-database; Initial Catalog=SampleApp; User Id=sa; Password=1StrongPassword*"
     working_dir: /app
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: 872175912550.dkr.ecr.us-east-1.amazonaws.com/sample-app-api:latest
     depends_on:
       - sql-server-database
-    command: "dotnet SampleApp.Web.dll"
     ports:
       - "80:80"
 
@@ -28,9 +25,7 @@ services:
 
   migrations:
     container_name: migrations
-    build:
-      context: .
-      dockerfile: Dockerfile.migrations
+    image: 872175912550.dkr.ecr.us-east-1.amazonaws.com/sample-app-api-migrations:latest
     working_dir: /app
     environment:
       PATH: "$PATH:$HOME/:dotnet/tools/"

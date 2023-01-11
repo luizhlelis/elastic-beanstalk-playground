@@ -17,6 +17,7 @@ using SampleApp.Web.Filters;
 using SampleApp.Web.Responses;
 using SampleApp.Web.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace SampleApp.Web;
 
@@ -120,12 +121,16 @@ public class Startup
                 }
             );
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        
+        services.AddHealthChecks();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
         IApiVersionDescriptionProvider provider)
     {
+        app.UseHealthChecks("/");
+        
         app.UseCustomExceptionHandler();
 
         app.UseSwagger();
@@ -139,8 +144,6 @@ public class Startup
                 }
             }
         );
-
-        app.UseHttpsRedirection();
 
         app.UseRouting();
 

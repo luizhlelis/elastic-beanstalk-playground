@@ -10,3 +10,5 @@ RUN dotnet publish SampleApp.Web/SampleApp.Web.csproj -r linux-arm64 -o bin -c R
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy AS RUNTIME_STAGE
 WORKDIR /app
 COPY --from=PUBLISH_STAGE /build/bin ./
+EXPOSE 80
+CMD [ "dotnet", "SampleApp.Web.dll" ]
