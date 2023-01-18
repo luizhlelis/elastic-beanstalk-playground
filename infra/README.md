@@ -4,9 +4,8 @@
 
 - Terraform;
 - AWS Account;
-- Create an user on IAM with the following permission: `AdministratorAccess-AWSElasticBeanstalk`;
-- Create IAM Role for `EC2` as `AWS Service` and attach `AWSElasticBeanstalkWebTier`, `AWSElasticBeanstalkMulticontainer` and `AWSElasticBeanstalkWorkerTier` policies to it. The IAM role should be named as `aws-elasticbeanstalk-ec2-role`.
-
+- Create an user on IAM with the following permissions: `AmazonEC2FullAccess`, `AmazonS3FullAccess`, `AdministratorAccess-AWSElasticBeanstalk`, `AWSAppRunnerServicePolicyForECRAccess`, `EC2InstanceProfileForImageBuilderECRContainerBuilds`;
+- Create IAM Role for `EC2` as `AWS Service` and attach `AWSElasticBeanstalkWebTier`, `AWSElasticBeanstalkMulticontainer`, `AWSElasticBeanstalkWorkerTier` and `AmazonEC2ContainerRegistryReadOnly` policies to it. The IAM role should be named as `aws-elasticbeanstalk-ec2-role`.
 
 ## Running commands
 

@@ -34,6 +34,8 @@ the [src](./src) folder:
 docker-compose up --build migrations
 ```
 
+> **NOTE:** there are two docker-compose files, one to run locally, and another one to be deployed in Elastic Beanstalk [infra/docker-compose.yml](infra/docker-compose.yml)
+
 If you want to create a new migration (after an entity model update, for example), type the following command in
 the [root](./) folder:
 
@@ -58,6 +60,52 @@ Otherwise, if you're running it locally, the port will be different:
 ```shell
 https://localhost:7211/swagger/index.html
 ```
+
+## Running commands to elastic beanstalk deploy
+
+Retrieve an authentication token and authenticate your Docker client to your registry. Use the AWS CLI:
+
+```shell
+aws ecr get-login-password --region <your-aws-region> | docker login --username AWS --password-stdin <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com
+```
+
+> **NOTE:** If you receive an error using the AWS CLI, make sure that you have the latest version of the AWS CLI and Docker installed.
+
+Build your Docker image using the following command. For information on building a Docker file from scratch see the instructions here . You can skip this step if your image is already built:
+
+```shell
+docker build -t sample-app-api .
+```
+
+> **NOTE:** if you're using a machine with AMD64 chip (M1/M2) the process is different, take a look at the steps below.
+
+If you're using a machine with AMD64 chip (M1/M2), then update [Dockerfile](src/Dockerfile) publish step to `-r linux-x64`, and instead of the command above, run the following one:
+
+```shell
+docker build -t sample-app-api . --platform amd64
+```
+
+After the build completes, tag your image so you can push the image to this repository:
+
+```shell
+docker tag sample-app-api:latest <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/sample-app-api:latest
+```
+
+Run the following command to push this image to your newly created AWS repository:
+
+```shell
+docker push <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/sample-app-api:latest
+```
+
+Now, you must repeat the same steps for `sample-app-api-migrations`:
+
+```shell
+docker build -t sample-app-api-migrations -f Dockerfile.migrations . --platform amd64
+docker tag sample-app-api-migrations:latest <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/sample-app-api-migrations:latest
+docker push <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/sample-app-api-migrations:latest
+```
+
+> Note: for more information on how to set up `nginx` configuration, take a look at [this documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-linux-extend.html).
 
 ## Credentials
 
