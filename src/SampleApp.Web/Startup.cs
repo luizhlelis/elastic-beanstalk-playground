@@ -129,6 +129,13 @@ public class Startup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
         IApiVersionDescriptionProvider provider)
     {
+        // Migrations
+        using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+        {
+            var context = serviceScope.ServiceProvider.GetService<SampleAppContext>();
+            context?.Database.Migrate();
+        }
+        
         app.UseHealthChecks("/");
         
         app.UseCustomExceptionHandler();

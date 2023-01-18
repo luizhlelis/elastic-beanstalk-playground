@@ -22,17 +22,3 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
-
-  migrations:
-    container_name: migrations
-    image: 872175912550.dkr.ecr.us-east-1.amazonaws.com/sample-app-api-migrations:latest
-    working_dir: /app
-    environment:
-      PATH: "$PATH:$HOME/:dotnet/tools/"
-      PROJECT: SampleApp.Infrastructure/SampleApp.Infrastructure.csproj
-      STARTUP_PROJECT: SampleApp.Web/SampleApp.Web.csproj
-      SQL_CONTEXT_CLASS: SampleAppContext
-      ConnectionStrings__SampleAppContext: "Data Source=sql-server-database; Initial Catalog=SampleApp; User Id=sa; Password=1StrongPassword*"
-    command: "bash ./Scripts/apply-existing-migrations.sh"
-    depends_on:
-      - sql-server-database
