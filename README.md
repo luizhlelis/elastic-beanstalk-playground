@@ -27,13 +27,6 @@ the [src](./src) folder:
 docker-compose up sql-server-database
 ```
 
-To up the existent migrations in SqlServer, type the following command in
-the [src](./src) folder:
-
-```shell
-docker-compose up --build migrations
-```
-
 > **NOTE:** there are two docker-compose files, one to run locally, and another one to be deployed in Elastic Beanstalk [infra/docker-compose.yml](infra/docker-compose.yml)
 
 If you want to create a new migration (after an entity model update, for example), type the following command in
@@ -95,14 +88,6 @@ Run the following command to push this image to your newly created AWS repositor
 
 ```shell
 docker push <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/sample-app-api:latest
-```
-
-Now, you must repeat the same steps for `sample-app-api-migrations`:
-
-```shell
-docker build -t sample-app-api-migrations -f Dockerfile.migrations . --platform amd64
-docker tag sample-app-api-migrations:latest <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/sample-app-api-migrations:latest
-docker push <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/sample-app-api-migrations:latest
 ```
 
 > Note: for more information on how to set up `nginx` configuration, take a look at [this documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-linux-extend.html).
