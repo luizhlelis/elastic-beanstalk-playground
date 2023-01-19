@@ -51,7 +51,11 @@ The `docker-compose` file is placed in the following path of the EC2 instance:
 cat etc/nginx/nginx.conf
 ```
 
+> **NOTE:** for more information on how to set up `nginx` configuration, take a look at [this documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-linux-extend.html).
+
 ## Deploy
+
+To deploy your application on Elastic Beanstalk you need to push the API image to a application
 
 [According to AWS](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker.container.console.html#docker-env-cfg.env-variables), it's allowed to configure environment variables following one of these approaches:
 
@@ -62,3 +66,39 @@ cat etc/nginx/nginx.conf
 For some reason, I could only configure environments following the first approach (`.env` file). To upload both files you must put them in the same compressed `.zip` folder, take a look at the [deploy-folder.zip]() example, and deploy this compressed folder instead of a single `docker-compose.yml` file.
 
 [Reference](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/single-container-docker-configuration.html#docker-configuration.no-compose)
+
+## Running commands to elastic beanstalk deploy
+
+Retrieve an authentication token and authenticate your Docker client to your registry. Use the AWS CLI:
+
+```shell
+aws ecr get-login-password --region <your-aws-region> | docker login --username AWS --password-stdin <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com
+```
+
+> **NOTE:** If you receive an error using the AWS CLI, make sure that you have the latest version of the AWS CLI and Docker installed.
+
+Build your Docker image using the following command. For information on building a Docker file from scratch see the instructions here . You can skip this step if your image is already built:
+
+```shell
+docker build -t sample-app-api .
+```
+
+> **NOTE:** if you're using a machine with AMD64 chip (M1/M2) the process is different, take a look at the steps below.
+
+If you're using a machine with AMD64 chip (M1/M2), then update [Dockerfile](src/Dockerfile) publish step to `-r linux-x64`, and instead of the command above, run the following one:
+
+```shell
+docker build -t sample-app-api . --platform amd64
+```
+
+After the build completes, tag your image so you can push the image to this repository:
+
+```shell
+docker tag sample-app-api:latest <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/sample-app-api:latest
+```
+
+Run the following command to push this image to your newly created AWS repository:
+
+```shell
+docker push <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/sample-app-api:latest
+```
