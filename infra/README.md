@@ -63,7 +63,7 @@ To deploy your application on Elastic Beanstalk you need to push the API image t
 
 - Directly define the environment variables in the `docker-compose.yml` file.
 
-For some reason, I could only configure environments following the first approach (`.env` file). To upload both files you must put them in the same compressed `.zip` folder, take a look at the [deploy-folder.zip]() example, and deploy this compressed folder instead of a single `docker-compose.yml` file.
+For some reason, I could only configure environments following the first approach (`.env` file). To upload both files you must put them in the same compressed `.zip` folder, take a look at the [deploy-folder.zip](./deploy-folder.zip) example, and deploy this compressed folder instead of a single `docker-compose.yml` file.
 
 [Reference](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/single-container-docker-configuration.html#docker-configuration.no-compose)
 

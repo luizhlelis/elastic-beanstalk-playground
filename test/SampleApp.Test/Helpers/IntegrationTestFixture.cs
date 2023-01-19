@@ -23,6 +23,8 @@ public class IntegrationTestFixture : IDisposable
             .AddJsonFile("appsettings.json", false, false)
             .AddEnvironmentVariables()
             .Build();
+        
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Testing");
 
         var server = new TestServer(new WebHostBuilder()
             .UseConfiguration(configuration)

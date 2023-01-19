@@ -130,12 +130,13 @@ public class Startup
         IApiVersionDescriptionProvider provider)
     {
         // Migrations
-        using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Testing")
         {
+            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             var context = serviceScope.ServiceProvider.GetService<SampleAppContext>();
             context?.Database.Migrate();
         }
-        
+
         app.UseHealthChecks("/");
         
         app.UseCustomExceptionHandler();
