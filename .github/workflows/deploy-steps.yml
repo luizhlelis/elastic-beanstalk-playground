@@ -53,3 +53,18 @@ jobs:
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:latest .
         docker push --all-tags $REGISTRY/$REPOSITORY
+        
+    - name: Generate deployment package
+      working-directory: ./infra
+      run: zip -r deploy-folder.zip .env docker-compose.yml
+
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v21
+      with:
+        aws_access_key: ${{ secrets.AWS_BEANSTALK_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_BEANSTALK_SECRET_ACCESS_KEY }}
+        application_name: sample-app-api
+        environment_name: production
+        version_label: ${{ github.sha }}
+        region: us-east-1
+        deployment_package: deploy-folder.zip
