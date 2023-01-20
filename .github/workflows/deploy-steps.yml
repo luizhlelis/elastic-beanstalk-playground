@@ -56,7 +56,7 @@ jobs:
         
     - name: Generate deployment package
       working-directory: ./infra
-      run: zip -r deploy-folder.zip .env docker-compose.yml
+      run: zip -r deploy.zip .env docker-compose.yml
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v21
@@ -67,4 +67,4 @@ jobs:
         environment_name: production
         version_label: 1234
         region: us-east-1
-        deployment_package: deploy-folder.zip
+        deployment_package: deploy.zip
