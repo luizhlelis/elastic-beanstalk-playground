@@ -15,6 +15,12 @@ jobs:
       - name: Execute tests
         working-directory: ./src
         run: "dotnet test ../test/SampleApp.Test/SampleApp.Test.csproj"
+      - name: Print variables
+        run: echo "$REPO_FULL_NAME" && echo "$REPO_NAME" && echo "$EVENT_NAME"
+        env:
+          REPO_FULL_NAME: ${{ github.event.pull_request.head.repo.full_name }}
+          REPO_NAME: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
   publish-ecr:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
