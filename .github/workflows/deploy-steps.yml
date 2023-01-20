@@ -58,7 +58,7 @@ jobs:
       working-directory: ./infra
       run: zip -r deploy-folder.zip .env docker-compose.yml
 
-    - name: Deploy to EB
+    - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v21
       with:
         aws_access_key: ${{ secrets.AWS_BEANSTALK_ACCESS_KEY_ID }}
