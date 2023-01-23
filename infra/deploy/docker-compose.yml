@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     working_dir: /app
-    image: <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/sample-app-api:latest
+    image: 872175912550.dkr.ecr.us-east-1.amazonaws.com/sample-app-api:latest
     depends_on:
       - sql-server-database
     ports:
