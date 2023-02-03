@@ -16,21 +16,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set environment to title and lower case
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-    - uses: jannekem/run-python-script-action@v1
-      env:
-        IMAGE_TAG: ${{ inputs.image_tag }}
-        STACK: ${{ inputs.stack }}
-        STAGING_HMAC_SECRET: ${{ inputs.hmac_secret }}
-        LAMBDA_ASSET_BASE_PATH: ''
-      with:
-        script: |
-            import os
-            os.environ["TITLECASE_ENVIRONMENT"] = os.environ["DEPLOY_ENVIRONMENT"].title()
-            os.environ["LOWERCASE_ENVIRONMENT"] = os.environ["DEPLOY_ENVIRONMENT"].lower()
+      - name: Set environment to title and lower case
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - uses: jannekem/run-python-script-action@v1
+        with:
+          script: |
+              import os
+              os.environ["TITLECASE_ENVIRONMENT"] = os.environ["DEPLOY_ENVIRONMENT"].title()
+              os.environ["LOWERCASE_ENVIRONMENT"] = os.environ["DEPLOY_ENVIRONMENT"].lower()
 
-    - name: Echo the value of TITLECASE_ENVIRONMENT
-      run: echo "Value of Title $TITLECASE_ENVIRONMENT, Value of Lower $LOWERCASE_ENVIRONMENT"
+      - name: Echo the value of TITLECASE_ENVIRONMENT
+        run: echo "Value of Title $TITLECASE_ENVIRONMENT, Value of Lower $LOWERCASE_ENVIRONMENT"
