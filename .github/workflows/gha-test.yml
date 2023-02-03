@@ -14,9 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: To title and to lower
-        run: ${DEPLOY_ENVIRONMENT^}
-
       - name: Echo the value of title and lower case
         env:
           TITLE_CASE_ENVIRONMENT: "${DEPLOY_ENVIRONMENT^}"
