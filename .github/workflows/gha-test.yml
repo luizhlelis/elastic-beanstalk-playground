@@ -25,6 +25,8 @@ jobs:
               import os
               os.environ["TITLECASE_ENVIRONMENT"] = os.environ["DEPLOY_ENVIRONMENT"].title()
               os.environ["LOWERCASE_ENVIRONMENT"] = os.environ["DEPLOY_ENVIRONMENT"].lower()
+              my_var = os.environ.get('TITLECASE_ENVIRONMENT')
+              print(f"Value of TITLECASE_ENVIRONMENT: {my_var}")
 
       - name: Echo the value of TITLECASE_ENVIRONMENT
         run: echo "Value of Title $TITLECASE_ENVIRONMENT, Value of Lower $LOWERCASE_ENVIRONMENT"
