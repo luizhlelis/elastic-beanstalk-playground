@@ -19,6 +19,6 @@ jobs:
 
       - name: Echo the value of title and lower case
         env:
-          TITLE_CASE_ENVIRONMENT: ${DEPLOY_ENVIRONMENT^}
-          LOWER_CASE_ENVIRONMENT: ${DEPLOY_ENVIRONMENT,,}
+          TITLE_CASE_ENVIRONMENT: "${DEPLOY_ENVIRONMENT^}"
+          LOWER_CASE_ENVIRONMENT: "${DEPLOY_ENVIRONMENT,,}"
         run: echo "Value of Title $TITLE_CASE_ENVIRONMENT, Value of Lower $LOWER_CASE_ENVIRONMENT"
