@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  DEPLOY_ENVIRONMENT: 'staging'
+  TARGET_ENVIRONMENT: 'staging'
 
 jobs:
   build:
@@ -16,6 +16,6 @@ jobs:
     steps:
       - name: Echo the value of title and lower case
         run: |
-          environment_title_case=$(echo "$INPUT_VAR" | awk '{print toupper(substr($0,1,1)) substr($0,2)}')
-          environment_lower_case=$(echo "$INPUT_VAR" | tr '[:upper:]' '[:lower:]')
-          echo "Value of Title $environment_title_case, Value of Lower $environment_lower_case
+          environment_title_case=$(echo "$TARGET_ENVIRONMENT" | awk '{print toupper(substr($0,1,1)) substr($0,2)}')
+          environment_lower_case=$(echo "$TARGET_ENVIRONMENT" | tr '[:upper:]' '[:lower:]')
+          echo "Value of Title $environment_title_case, Value of Lower $environment_lower_case"
